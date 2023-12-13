@@ -1,6 +1,11 @@
 name: New Releases
 
 on:
+  push:
+    branches: [ master ]
+  
+  workflow_dispatch:
+
   schedule:
     - cron: '10 19 * * *'
 
