@@ -23,6 +23,11 @@ jobs:
       run: |
         make
 
+    - name: chang v6 gateway
+      run: |
+        sed -i 's/192\.168\.2\.99/fd50::2/g' ./routes6.conf
+        cd $CURRENT_DIR
+
     - name: upload to release
       uses: softprops/action-gh-release@v1
       env:
