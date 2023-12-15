@@ -25,7 +25,7 @@ jobs:
 
     - name: chang v6 gateway
       run: |
-        sed -i 's/192\.168\.2\.99/fd50::2/g' ./routes6.conf
+        sed -i 's/192\.168\.2\.99/fd50:3b21:db2::1/g' ./routes6.conf
         cd $CURRENT_DIR
 
     - name: upload to release
