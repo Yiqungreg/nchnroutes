@@ -14,11 +14,6 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    - name: Create dist folder
-      run:  |
-        mkdir -p dist
-        cd dist
-
     - name: Checkout Repository
       uses: actions/checkout@v3
 
@@ -33,23 +28,25 @@ jobs:
         sed -i 's/192\.168\.2\.99/fd50:3b21:db2::1/g' ./routes6.conf
         cd $CURRENT_DIR
 
-    - name: Set env variables
-      run: |
-        echo "RELEASE_NAME=$(date +%Y%m%d)" >> $GITHUB_ENV
-        echo "TAG_NAME=$(date +%Y%m%d)" >> $GITHUB_ENV
-      shell: bash
-
-    - name: Push to release branch
-      run: |
-        mkdir publish
-        cp -af dist/route4.conf publish/route4.conf
-        cp -af dist/route6.conf publish/route6.conf
-        cd publish
-        git init
-        git config --local user.name "${{ github.actor }}"
-        git config --local user.email "${{ github.actor }}@users.noreply.github.com"
-        git checkout -b release
-        git add .
-        git commit -m "${{ env.RELEASE_NAME }}"
-        git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-        git push -f -u origin release
+    - name: upload to release
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: latest
+        files: |
+          ./routes4.conf
+          ./routes6.conf
+          
+  del_runs:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 1
+          keep_minimum_runs: 6
