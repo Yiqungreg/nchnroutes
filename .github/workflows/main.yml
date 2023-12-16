@@ -37,8 +37,8 @@ jobs:
     - name: Push to release branch
       run: |
         mkdir publish
-        cp -af ./route4.conf publish/route4.conf
-        cp -af ./route6.conf publish/route6.conf
+        cp -af route4.conf publish/route4.conf
+        cp -af route6.conf publish/route6.conf
         cd publish
         git init
         git config --local user.name "${{ github.actor }}"
