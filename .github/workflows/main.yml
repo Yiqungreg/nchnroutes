@@ -16,7 +16,7 @@ jobs:
     steps:
     - name: Create dist folder
       run: mkdir -p dist
-	  
+
     - name: Checkout Repository
       uses: actions/checkout@v3
 
