@@ -14,17 +14,16 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-
     - name: Create dist folder
       run: mkdir -p dist
+	  
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
     - name: Build nchnroutes
       env: 
         PASS_IPS: ${{secrets.PASS_IPS}}
       run: |
-        CURRENT_DIR=$(pwd)
         cd dist
         make
 
