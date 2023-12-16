@@ -17,10 +17,15 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
+    - name: Create dist folder
+      run: mkdir -p dist
+
     - name: Build nchnroutes
       env: 
         PASS_IPS: ${{secrets.PASS_IPS}}
       run: |
+        CURRENT_DIR=$(pwd)
+        cd dist
         make
 
     - name: chang v6 gateway
@@ -37,8 +42,8 @@ jobs:
     - name: Push to release branch
       run: |
         mkdir publish
-        cp -af route4.conf publish/route4.conf
-        cp -af route6.conf publish/route6.conf
+        cp -af dist/route4.conf publish/route4.conf
+        cp -af dist/route6.conf publish/route6.conf
         cd publish
         git init
         git config --local user.name "${{ github.actor }}"
