@@ -15,7 +15,9 @@ jobs:
 
     steps:
     - name: Create dist folder
-      run: mkdir -p dist
+      run:  |
+        mkdir -p dist
+        cd dist
 
     - name: Checkout Repository
       uses: actions/checkout@v3
@@ -24,7 +26,6 @@ jobs:
       env: 
         PASS_IPS: ${{secrets.PASS_IPS}}
       run: |
-        cd dist
         make
 
     - name: chang v6 gateway
